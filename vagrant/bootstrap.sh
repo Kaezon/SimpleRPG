@@ -37,4 +37,4 @@ sudo mysql -u root -p$MYSQL_ROOT_PASS -e "GRANT ALL PRIVILEGES ON * . * TO 'djan
 sudo mysqladmin -p$MYSQL_ROOT_PASS flush-privileges
 
 source /home/ubuntu/vagrant/bin/activate
-sudo pip install -r /vagrant/requirements.txt
+pip install -r /vagrant/requirements.txt
