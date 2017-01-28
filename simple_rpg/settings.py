@@ -124,5 +124,5 @@ STATIC_URL = '/static/'
 
 #Graphene
 GRAPHENE = {
-    'SCHEMA': 'base.schema'
+    'SCHEMA': 'simple_rpg.schema.schema'
 }

@@ -10,20 +10,20 @@ class Character(models.Model):
     """
     name = models.CharField(max_length=50)
     owner = models.ForeignKey(User)
-    hp = models.Integer()
-    ap = models.Integer()
-    xp = models.Integer()
-    attack = models.Integer()
-    defense = models.Integer()
-    agility = models.Integer()
-    luck = models.Integer()
+    hp = models.IntegerField()
+    ap = models.IntegerField()
+    xp = models.IntegerField()
+    attack = models.IntegerField()
+    defense = models.IntegerField()
+    agility = models.IntegerField()
+    luck = models.IntegerField()
 
 class Item(models.Model):
     """
     Represents an item
     """
     name = models.CharField(max_length=50)
-    description = models.Charfield(256)
+    description = models.CharField(max_length=256)
 
 class Inventory(models.Model):
     """
@@ -31,4 +31,4 @@ class Inventory(models.Model):
     """
     character = models.ForeignKey(Character)
     item = models.ForeignKey(Item)
-    quantity = models.Integer()
+    quantity = models.IntegerField()

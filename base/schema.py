@@ -30,9 +30,10 @@ class InventoryNode(DjangoObjectType):
     """
     Inventory Node
     """
-    model = Inventory
-    filter_fields = ['character']
-    interfaces = (relay.Node, )
+    class Meta:
+        model = Inventory
+        filter_fields = ['character']
+        interfaces = (relay.Node, )
 
 class Query(AbstractType):
     character = relay.Node.Field(CharacterNode)
