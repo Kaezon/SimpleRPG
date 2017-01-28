@@ -1,4 +1,5 @@
 # Vagrant
+vagrant/.vagrant/
 
 # Windows image file caches
 Thumbs.db
@@ -141,3 +142,5 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+*.sqlite3
