@@ -25,7 +25,7 @@ SECRET_KEY = 'q(g2pf3vj0mmed9!r2r!u*(pr-_1(g0dv4*^6h=#=d(8+gdwve'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -122,7 +122,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-#Graphene
+# Graphene
 GRAPHENE = {
     'SCHEMA': 'simple_rpg.schema.schema'
 }

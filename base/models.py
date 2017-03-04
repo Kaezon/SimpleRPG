@@ -11,12 +11,16 @@ class Character(models.Model):
     name = models.CharField(max_length=50)
     owner = models.ForeignKey(User)
     hp = models.IntegerField()
+    hp_max = models.IntegerField()
     ap = models.IntegerField()
+    ap_max = models.IntegerField()
     xp = models.IntegerField()
+    level = models.IntegerField()
     attack = models.IntegerField()
     defense = models.IntegerField()
     agility = models.IntegerField()
     luck = models.IntegerField()
+    skill_points = models.IntegerField()
 
 class Item(models.Model):
     """

@@ -144,3 +144,5 @@ ENV/
 .ropeproject
 
 *.sqlite3
+
+**/migrations
