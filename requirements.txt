@@ -1,2 +1,2 @@
-django==1.9
-graphene_django
+sqlalchemy == 1.1.14
+discord.py == 0.16.12
