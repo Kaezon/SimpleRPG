@@ -1,4 +1,5 @@
 """Module containing the Character class"""
+import asyncio
 
 import sqlalchemy
 
@@ -11,6 +12,7 @@ class Character:
         self.state = CHARACTER_STATE.IDLE
         self.equipment = EQUIPMENT_DICT.copy()
         self.inventory = []
+        self.money = 0
         self.load_or_initialize()
 
     def load_or_initialize(self):
@@ -20,7 +22,7 @@ class Character:
         """
         pass
 
-    def create_character(self):
+    async def create_character(self):
         """
         Present the user with the character creation process and save the
         resulting stats to the database.

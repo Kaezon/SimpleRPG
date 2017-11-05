@@ -4,6 +4,7 @@ import asyncio
 from os import getenv
 
 import discord
+from discord.enums import ChannelType
 
 client = discord.Client()
 
@@ -30,5 +31,22 @@ async def on_message(message):
     elif message.content.startswith('!sleep'):
         await asyncio.sleep(5)
         await client.send_message(message.channel, 'Done sleeping')
+
+    elif message.content.startswith('!create.character'):
+        if isinstance(message.channel, ChannelType.private):
+            await client.send_message(
+                message.channel,
+                "This would normally begin the character creation process, "
+                "but the developer is tired and lazy")
+        else:
+            await client.send_message(
+                message.channel,
+                "You will be PM'd shortly to begin the character creation "
+                "process.")
+            channel = await client.start_private_message(message.author)
+            client.send_message(
+                channel,
+                "This would normally begin the character creation process, "
+                "but the developer is tired and lazy")
 
 client.run(getenv('DISCORD_TOKEN'))
