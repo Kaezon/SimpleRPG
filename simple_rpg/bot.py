@@ -43,9 +43,8 @@ async def on_message(message):
                 message.channel,
                 "You will be PM'd shortly to begin the character creation "
                 "process.")
-            channel = await client.start_private_message(message.author)
-            client.send_message(
-                channel,
+            await client.send_message(
+                message.author,
                 "This would normally begin the character creation process, "
                 "but the developer is tired and lazy")
 
