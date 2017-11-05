@@ -1,7 +1,9 @@
 """Module containing the Discord bot functionality."""
 
-import discord
 import asyncio
+from os import getenv
+
+import discord
 
 client = discord.Client()
 
@@ -29,4 +31,4 @@ async def on_message(message):
         await asyncio.sleep(5)
         await client.send_message(message.channel, 'Done sleeping')
 
-client.run('token')
+client.run(getenv('DISCORD_TOKEN'))
