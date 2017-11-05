@@ -33,7 +33,7 @@ async def on_message(message):
         await client.send_message(message.channel, 'Done sleeping')
 
     elif message.content.startswith('!create.character'):
-        if isinstance(message.channel, ChannelType.private):
+        if message.channel.type == ChannelType.private:
             await client.send_message(
                 message.channel,
                 "This would normally begin the character creation process, "
