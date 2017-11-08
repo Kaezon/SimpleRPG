@@ -4,26 +4,29 @@ participate in.
 """
 from discord import Client
 
+from simple_rpg.constants import CHARACTER_CREATION_STAGE
 
-class event:
+
+class Event:
     def __init__(self, characters: list, client: Client):
         self.characters = characters
         self.client = client
 
 
-class character_creation(event):
+class CharacterCreation(event):
     """The character creation process"""
     def __init__(self, characters: list, client: Client):
-        super(characters, client)
+        super().__init__(characters, client)
+        self.stage = CHARACTER_CREATION_STAGE.START
 
 
-class npc_battle(event):
+class NPCBattle(event):
     """A battle between an npc and one or more characters"""
     def __init__(self, characters: list, client: Client):
-        super(characters, client)
+        super().__init__(characters, client)
 
 
-class gambling_session(event):
+class GamblingSession(event):
     """A gambling session with one or more characters"""
     def __init__(self, characters: list, client: Client):
-        super(characters, client)
+        super().__init__(characters, client)

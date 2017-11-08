@@ -1,19 +1,23 @@
 """Module containing the Character class"""
 import asyncio
+import logging
 
+import discord
+from discord.ext import commands
 import sqlalchemy
 
 from simple_rpg.constants import CHARACTER_STATE, EQUIPMENT_DICT
 
+logger = logging.getLogger('SimpleRPG')
 
-class Character:
+
+class Character(object):
     def __init__(self, name):
         self.name = name
         self.state = CHARACTER_STATE.IDLE
         self.equipment = EQUIPMENT_DICT.copy()
         self.inventory = []
         self.money = 0
-        self.load_or_initialize()
 
     def load_or_initialize(self):
         """
