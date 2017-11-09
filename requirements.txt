@@ -1,2 +1,2 @@
 sqlalchemy == 1.1.14
--e git:https://github.com/Rapptz/discord.py.git@5013102574916c4c9d8a9ebe17f8b9ff963f2005
+-e git://github.com/Rapptz/discord.py.git@5013102574916c4c9d8a9ebe17f8b9ff963f2005#egg=discord
