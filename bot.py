@@ -3,8 +3,6 @@
 import asyncio
 from os import getenv
 
-import discord
-from discord.enums import ChannelType
 from discord.ext import commands
 
 from simple_rpg import cogs
@@ -20,7 +18,7 @@ class RPGBot(commands.Bot):
 
         self.add_cog(cogs.characters.Characters(self))
 
-    async def on_ready():
+    async def on_ready(self):
         print('Logged in as')
         print(self.user.name)
         print(self.user.id)
