@@ -3,7 +3,7 @@ import logging
 import discord
 from discord.ext import commands
 
-from discord.decorators import must_have_character
+from ..decorators import must_have_character
 
 logger = logging.getLogger('SimpleRPG')
 
@@ -14,5 +14,5 @@ class Characters(object):
 
     @must_have_character()
     @commands.command()
-    async def character_test(self):
+    async def character_test(self, ctx):
         logger.info("The function executed!")

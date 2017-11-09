@@ -1,9 +1,9 @@
 """Decorators for use with SimpleRPG"""
-import logging
-
-logger = logging.getLogger('SimpleRPG')
 
 
 def must_have_character(ctx):
-    logger.info("The decorator has executed.")
-    logger.info("CTX: {}".format(ctx))
+    # This needs to become a database check
+    if ctx.message.author in ctx.bot.characters:
+        return True
+    ctx.send("You must create a character first!")
+    return False

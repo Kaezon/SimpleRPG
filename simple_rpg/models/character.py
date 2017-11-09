@@ -1,14 +1,10 @@
 """Module containing the Character class"""
 import asyncio
-import logging
 
-import discord
 from discord.ext import commands
 import sqlalchemy
 
 from simple_rpg.constants import CHARACTER_STATE, EQUIPMENT_DICT
-
-logger = logging.getLogger('SimpleRPG')
 
 
 class Character(object):
@@ -26,12 +22,13 @@ class Character(object):
         """
         pass
 
-    async def create_character(self):
+    @commands.command()
+    async def create_character(self, ctx):
         """
         Present the user with the character creation process and save the
         resulting stats to the database.
         """
-        pass
+        ctx.send("This would normally begin character creation.")
 
     def load_character(self):
         """Load the character stats from the database"""
