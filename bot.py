@@ -29,7 +29,7 @@ class RPGBot(commands.Bot):
             await ctx.send('You must create a character first!')
         else:
             ctx.send('An error occured!')
-            print("Error: {}: {}".format(type(error).__name__, error))
+            print("Error - {}: {}".format(type(error).__name__, error))
 
 
 if __name__ == '__main__':

@@ -4,7 +4,7 @@ participate in.
 """
 from discord import Client
 
-from simple_rpg.constants import CHARACTER_CREATION_STAGE
+from ..constants import CHARACTER_CREATION_STAGE
 
 
 class Event:
@@ -15,7 +15,7 @@ class Event:
 
 class CharacterCreation(event):
     """The character creation process"""
-    def __init__(self, characters: list, client: Client):
+    def __init__(self, character: Character, client: Client):
         super().__init__(characters, client)
         self.stage = CHARACTER_CREATION_STAGE.START
 
