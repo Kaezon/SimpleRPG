@@ -5,7 +5,7 @@ from os import getenv
 
 from discord.ext import commands
 
-from simple_rpg import cogs
+from simple_rpg import cogs, exceptions
 
 COMMAND_PREFIX = '!'
 
@@ -23,6 +23,13 @@ class RPGBot(commands.Bot):
         print(self.user.name)
         print(self.user.id)
         print('------')
+
+    async def on_command_error(self, ctx, error):
+        if isinstance(error, exceptions.HasNoCharacterException):
+            await ctx.send('You must create a character first!')
+        else:
+            ctx.send('An error occured!')
+            print("Error: {}: {}".format(type(error).__name__, error))
 
 
 if __name__ == '__main__':

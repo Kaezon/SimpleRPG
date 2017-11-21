@@ -8,8 +8,8 @@ from simple_rpg.constants import CHARACTER_STATE, EQUIPMENT_DICT
 
 
 class Character(object):
-    def __init__(self, name):
-        self.name = name
+    def __init__(self, owner_id):
+        self.owner_id = owner_id
         self.state = CHARACTER_STATE.IDLE
         self.equipment = EQUIPMENT_DICT.copy()
         self.inventory = []
