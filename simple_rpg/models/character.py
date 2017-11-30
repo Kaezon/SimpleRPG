@@ -16,6 +16,10 @@ class Character(object):
         self.equipment = EQUIPMENT_DICT.copy()
         self.inventory = []
         self.money = 0
+        self.health = 0
+        self.health_max = 0
+        self.mana = 0
+        self.mana_max = 0
         self.strength = 0
         self.defense = 0
         self.agility = 0
