@@ -7,6 +7,19 @@ from . import ORMBase
 
 
 class CharacterEquipment(ORMBase):
+    """
+    A model of a character's equip slots.
+    Fields:
+     - id<Integer>: Primary Key
+     - character_id<Integer>: The id of the owning character record
+     - head<Integer>: The id of the item eqiped to the character's head
+     - body<Integer>: The id of the item eqiped to the character's body
+     - left_hand<Integer>: The id of the item eqiped to the character's left
+                           hand
+     - right_hand<Integer>: The id of the item eqiped to the character's right
+                            hand
+     - feet<Integer>: The id of the item eqiped to the character's fet
+    """
     __tablename__ = 'character_equipment'
 
     id = Column(

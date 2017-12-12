@@ -7,6 +7,12 @@ from . import ORMBase
 
 
 class CharacterInventory(ORMBase):
+    """
+    Model representing an item and the quantity of the item in a character's
+    inventory.
+    Fields:
+      - 
+    """
     __tablename__ = 'character_inventory'
 
     id = Column(
