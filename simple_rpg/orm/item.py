@@ -21,5 +21,5 @@ class Item(orm.ORMBase):
     __tablename__ = 'items'
 
     id = Column(Integer, Sequence('item_id_seq'), primary_key=True)
-    id_string = Column(String. unique=True)
+    id_string = Column(String, index=True, unique=True)
     item_hash = Column(String)

@@ -19,7 +19,7 @@ class CharacterInventory(ORMBase):
 
     id = Column(
         Integer, Sequence('character_inventory_id_seq'), primary_key=True)
-    character_id = Column(Integer, ForeignKey('characters.id'))
+    character_id = Column(Integer, ForeignKey('characters.id'), unique=True, index=True)
     item_id = Column(Integer, ForeignKey('items.id'))
     quantity = Column(Integer)
 

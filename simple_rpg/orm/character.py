@@ -12,7 +12,7 @@ class Character(ORMBase):
     __tablename__ = 'characters'
 
     id = Column(Integer, Sequence('character_id_seq'), primary_key=True)
-    owner_id = Column(String)
+    owner_id = Column(String, index=True)
     skill_points = Column(Integer)
     equipment_id = Column(Integer, ForeignKey('character_equipment.id'))
     money = Column(Integer)
