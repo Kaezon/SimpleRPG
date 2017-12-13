@@ -6,7 +6,8 @@ from discord.ext import commands
 import sqlalchemy
 
 from simple_rpg.enums import CHARACTER_STATE, EQUIPMENT_DICT
-from  simple_rpg.orm.character import Character as ORMCharacter
+from simple_rpg.orm.character import Character as ORMCharacter
+from simple_rpg.orm.character_equipment import CharacterEquipment
 
 
 class Character(object):
@@ -126,7 +127,7 @@ class Character(object):
 
         self.model.owner_id = self.owner_id
         self.model.skill_points = self.skill_points
-        self.model.equipment = None
+        self.model.equipment = CharacterEquipment()
         self.model.money = self.money
         self.model.health = self.health
         self.model.health_max = self.health_max
