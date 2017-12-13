@@ -1,7 +1,5 @@
 """Module containing the SQLAlchemy database connecter"""
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.schema import CreateSchema
-from sqlalchemy import event
 
 from .orm import ORMBase
 from .orm.character import Character
