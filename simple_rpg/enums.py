@@ -1,4 +1,4 @@
-"""Module containing the project's constants."""
+"""Module containing the project's enums."""
 
 from enum import Enum
 

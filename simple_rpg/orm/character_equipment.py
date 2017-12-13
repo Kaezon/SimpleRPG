@@ -2,11 +2,12 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+from sqlalchemy.schema import Sequence
 
-from . import ORMBase
+import simple_rpg.orm as orm
 
 
-class CharacterEquipment(ORMBase):
+class CharacterEquipment(orm.ORMBase):
     """
     A model of a character's equip slots.
     Fields:
@@ -24,11 +25,19 @@ class CharacterEquipment(ORMBase):
 
     id = Column(
         Integer, Sequence('character_equipment_id_seq'), primary_key=True)
-    character_id = Column(Integer, ForeignKey('character.id'))
-    head = Column(Integer, ForeignKey('item.id'))
-    body = Column(Integer, ForeignKey('item.id'))
-    left_hand = Column(Integer, ForeignKey('item.id'))
-    right_hand = Column(Integer, ForeignKey('item.id'))
-    feet = Column(Integer, ForeignKey('item.id'))
+    head_item_id = Column(Integer, ForeignKey('items.id'))
+    body_item_id = Column(Integer, ForeignKey('items.id'))
+    left_hand_item_id = Column(Integer, ForeignKey('items.id'))
+    right_hand_item_id = Column(Integer, ForeignKey('items.id'))
+    feet_item_id = Column(Integer, ForeignKey('items.id'))
 
-    character = relationship("Character", back_populates="equipment")
+    head = relationship(
+        "Item", primaryjoin="CharacterEquipment.head_item_id==Item.id")
+    body = relationship(
+        "Item", primaryjoin="CharacterEquipment.body_item_id==Item.id")
+    left_hand = relationship(
+        "Item", primaryjoin="CharacterEquipment.left_hand_item_id==Item.id")
+    right_hand = relationship(
+        "Item", primaryjoin="CharacterEquipment.right_hand_item_id==Item.id")
+    feet = relationship(
+        "Item", primaryjoin="CharacterEquipment.feet_item_id==Item.id")

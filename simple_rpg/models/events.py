@@ -4,7 +4,7 @@ participate in.
 """
 from discord import Client
 
-from ..constants import CHARACTER_CREATION_STAGE
+from ..enums import CHARACTER_CREATION_STAGE
 
 
 class Event:

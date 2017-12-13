@@ -5,12 +5,15 @@ import re
 from discord.ext import commands
 import sqlalchemy
 
-from simple_rpg.constants import CHARACTER_STATE, EQUIPMENT_DICT
+from simple_rpg.enums import CHARACTER_STATE, EQUIPMENT_DICT
+from  simple_rpg.orm.character import Character as ORMCharacter
 
 
 class Character(object):
-    def __init__(self, owner_id):
+    def __init__(self, bot, owner_id):
         self.owner_id = owner_id
+        self.bot = bot
+        self.model = None
         self.state = CHARACTER_STATE.IDLE
         self.skill_points = 5
         self.equipment = EQUIPMENT_DICT.copy()
@@ -25,12 +28,19 @@ class Character(object):
         self.agility = 0
         self.dexterity = 0
 
+        self.load_or_initialize()
+
     def load_or_initialize(self):
         """
         Load the character from the database if it exists; otherwise, run the
         character creation process.
         """
-        pass
+        record = self.bot.sql_connector.get_character(self.owner_id)
+        if record is not None:
+            self.model = record
+            self.bot.characters[self.owner_id] = self
+        else:
+            self.model = ORMCharacter(owner_id=self.owner_id)
 
     async def create(self, ctx):
         """
@@ -114,8 +124,27 @@ class Character(object):
                 await ctx.send('Canceling character creation.')
                 return
 
-        ctx.bot.characters[ctx.message.author.id] = self
+        self.model.owner_id = self.owner_id
+        self.model.skill_points = self.skill_points
+        self.model.equipment = None
+        self.model.money = self.money
+        self.model.health = self.health
+        self.model.health_max = self.health_max
+        self.model.mana = self.mana
+        self.model.mana_max = self.mana_max
+        self.model.strength = self.strength
+        self.model.defense = self.defense
+        self.model.agility = self.agility
+        self.model.dexterity = self.dexterity
+        self.bot.sql_connector.add_new_character(self.model)
+        self.bot.characters[ctx.message.author.id] = self
+
+        await ctx.send("Your character has been created and saved.")
 
     def load_character(self):
         """Load the character stats from the database"""
+        pass
+
+    def save_character(self):
+        """Save this character to the database"""
         pass

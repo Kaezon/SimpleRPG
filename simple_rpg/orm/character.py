@@ -1,9 +1,10 @@
 """Module containing the SQLAlchemy model for character objects"""
 from sqlalchemy import Column, ForeignKey, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+from sqlalchemy.schema import Sequence
 
 from . import ORMBase
+from .character_equipment import CharacterEquipment
 from .character_inventory import CharacterInventory
 
 
@@ -29,7 +30,9 @@ class Character(ORMBase):
         order_by=CharacterInventory.id,
         back_populates="character")
 
-    equipment = relationship("CharacterEquipment", back_populates="character")
+    equipment = relationship(
+        "CharacterEquipment",
+        primaryjoin="Character.equipment_id==CharacterEquipment.id")
 
     def __repr__(self):
         return ("<Character(id={character_id}, owner_id={owner_id})>")

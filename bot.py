@@ -4,8 +4,10 @@ import asyncio
 from os import getenv
 
 from discord.ext import commands
+from sqlalchemy import create_engine
 
 from simple_rpg import cogs, exceptions
+from simple_rpg.sql_connector import SQLConnecter
 
 COMMAND_PREFIX = '!'
 
@@ -15,8 +17,10 @@ class RPGBot(commands.Bot):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, pm_help=True, **kwargs)
         self.characters = {}
+        self.sql_connector = SQLConnecter(create_engine('sqlite://'))
 
         self.add_cog(cogs.characters.Characters(self))
+        self.sql_connector.initialize_database()
 
     async def on_ready(self):
         print('Logged in as')

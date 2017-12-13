@@ -30,5 +30,5 @@ class Characters(object):
                     "creation process.")
                 ctx.channel = message.channel
 
-            character = Character(ctx.message.author.id)
+            character = Character(ctx.bot, ctx.message.author.id)
             await character.create(ctx)

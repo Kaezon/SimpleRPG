@@ -1,11 +1,13 @@
 """Module containing the SQLAlchemy model for items"""
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
+from sqlalchemy.schema import Sequence
 
-from . import ORMBase
+import simple_rpg.orm as orm
 
 
-class Item(ORMBase):
+class Item(orm.ORMBase):
     """
     This table is used to map items in character's persistent inventory
     records to object instances loaded into memory.
@@ -14,7 +16,7 @@ class Item(ORMBase):
       - id_string<String>: A unique string that will relate a record to an
                            object
       - item_hash<String>: A hash of the object, allowing the bot to detect
-                           changes in objects between loads. 
+                           changes in objects between loads.
     """
     __tablename__ = 'items'
 
