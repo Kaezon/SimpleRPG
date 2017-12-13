@@ -1,6 +1,5 @@
 """Module containing the SQLAlchemy model for character equipment"""
-from sqlalchemy import Column, ForeignKey, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, ForeignKey, Integer
 from sqlalchemy.orm import relationship
 from sqlalchemy.schema import Sequence
 

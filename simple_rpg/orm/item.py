@@ -1,6 +1,5 @@
 """Module containing the SQLAlchemy model for items"""
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.schema import Sequence
 
