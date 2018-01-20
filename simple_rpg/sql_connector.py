@@ -3,6 +3,7 @@ from sqlalchemy.orm import sessionmaker
 
 from .orm import ORMBase
 from .orm.character import Character
+from .orm.character_inventory import CharacterInventory
 
 
 class SQLConnecter:
@@ -25,13 +26,18 @@ class SQLConnecter:
         """
         Selects a character record from the database with the given owner_id
         """
-        return self.session.query(
-            Character).filter(Character.owner_id == member_id).one_or_none()
+        return self.session.query(Character) \
+            .filter(Character.owner_id == member_id).one_or_none()
 
     def add_new_character(self, character_record):
         """Add a character record to the database"""
         self.session.add(character_record)
         self.session.commit()
+
+    def get_character_inventory(self, character_id):
+        """Get all inventory records related to this character"""
+        return self.session.query(CharacterInventory) \
+            .filter(CharacterInventory.character_id == character_id).all()
 
     def update_static_tables(self):
         """Updates all of the static tables with new and modified objects"""

@@ -32,3 +32,9 @@ class Characters(object):
 
             character = Character(ctx.bot, ctx.message.author.id)
             await character.create(ctx)
+
+    @commands.command()
+    @checks.has_character()
+    async def inventory(self, ctx):
+        """Send the character's inventory to the channel"""
+        pass
