@@ -21,6 +21,7 @@ class SQLConnecter:
     def initialize_database(self):
         """Creates all of the tables and populates the static tables"""
         ORMBase.metadata.create_all(self.engine, checkfirst=True)
+        # TODO: Static Tables
 
     def get_character(self, member_id):
         """
