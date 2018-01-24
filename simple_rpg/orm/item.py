@@ -1,6 +1,5 @@
 """Module containing the SQLAlchemy model for items"""
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import relationship
 from sqlalchemy.schema import Sequence
 
 import simple_rpg.orm as orm

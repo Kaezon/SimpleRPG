@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from .orm import ORMBase
 from .orm.character import Character
 from .orm.character_inventory import CharacterInventory
+from .orm.item import Item
 
 
 class SQLConnecter:
@@ -29,6 +30,10 @@ class SQLConnecter:
         """
         return self.session.query(Character) \
             .filter(Character.owner_id == member_id).one_or_none()
+
+    def get_all_items(self):
+        """Selects all items from the item table."""
+        return self.session.query(Item).all()
 
     def add_new_character(self, character_record):
         """Add a character record to the database"""
