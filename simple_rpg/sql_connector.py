@@ -1,10 +1,18 @@
 """Module containing the SQLAlchemy database connecter"""
+import hashlib
+import json
+import logging
+
 from sqlalchemy.orm import sessionmaker
 
 from .orm import ORMBase
 from .orm.character import Character
 from .orm.character_inventory import CharacterInventory
 from .orm.item import Item
+from ..schematics import ItemSchematic
+
+
+logger = logging.getLogger('simple_rpg')
 
 
 class SQLConnecter:
@@ -18,6 +26,12 @@ class SQLConnecter:
         if self._session is None:
             self._session = self.sessionmaker()
         return self._session
+
+    def add_item(self, item: ItemSchematic):
+        """Add an item to the database."""
+        item_hash = hashlib.sha256(json.dumps(item.to_primitive())).hexdigest()
+        self.session.add(Item(id_string=item.identifier, item_hash=item_hash))
+        self.session.commit()
 
     def initialize_database(self):
         """Creates all of the tables and populates the static tables"""
@@ -45,6 +59,21 @@ class SQLConnecter:
         return self.session.query(CharacterInventory) \
             .filter(CharacterInventory.character_id == character_id).all()
 
-    def update_static_tables(self):
-        """Updates all of the static tables with new and modified objects"""
-        pass
+    def update_items(self, items: list):
+        """
+        Update Item table with new and modified objects.
+        args:
+            items: A list of ItemScematic objects.
+        """
+        for item in items:
+            item_hash = hashlib.sha256(json.dumps(item.to_primitive())) \
+                .hexdigest()
+            item_record = self.session.query(Item) \
+                .filter(Item.id_string == item.identifier).one_or_none()
+            if item_record is None:
+                self.add_item(item)
+            elif item_record.item_hash != item_hash:
+                logger.warning("Detected change to item: {}"
+                               .format(item.identifier))
+                item_record.item_hash = item_hash
+                self.session.commit()

@@ -1,15 +1,17 @@
 """Module containing the Discord bot functionality."""
 
 import asyncio
-from os import getenv
+from os import getenv, path
 
 from discord.ext import commands
 from sqlalchemy import create_engine
 
 from simple_rpg import cogs, exceptions
 from simple_rpg.sql_connector import SQLConnecter
+from simple_rpg.util.yaml import load_items
 
 COMMAND_PREFIX = '!'
+item_dir = path.join(path.realpath(__file__), 'items')
 
 
 class RPGBot(commands.Bot):
@@ -21,6 +23,7 @@ class RPGBot(commands.Bot):
 
         self.add_cog(cogs.characters.Characters(self))
         self.sql_connector.initialize_database()
+        self.sql_connector.update_items(load_items(item_dir))
 
     async def on_ready(self):
         print('Logged in as')
