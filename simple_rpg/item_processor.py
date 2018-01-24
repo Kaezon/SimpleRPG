@@ -10,11 +10,19 @@ class ItemProcessor(Object):
     def __init__(self, bot):
         self.bot = bot
 
-    def process_item(self, character, item):
+    def process_item(self, character, item, target=None):
         """
         This method processes an item schematic.
         args:
             character: The character which is using the item.
             item: An item schematic.
         """
-        pass
+        # Set or validate target
+        if item.target == 'self':
+            target = character
+        # TODO: more target types
+
+        # Perform the item's actions
+        for verb in item.actions:
+            if verb.action == 'add_health':
+                target.health += verb.value
