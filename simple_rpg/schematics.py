@@ -2,14 +2,14 @@
 Module containing Item schematics.
 Items should be defined in YAML files with this format:
 ```
-health_potion:
-  display_name: Health Potion
-  item_type: consumable
-  value: 10
-  target: self
-  actions:
-    - action: add_health
-      value: 25
+identifier: health_potion
+display_name: Health Potion
+item_type: consumable
+value: 10
+target: self
+actions:
+- action: add_health
+  value: 25
 ```
 """
 
@@ -23,6 +23,7 @@ class ActionSchematic(Model):
 
 
 class ItemSchematic(Model):
+    identifier = StringType()
     display_name = StringType()
     item_type = StringType()
     value = IntType()

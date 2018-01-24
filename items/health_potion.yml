@@ -1,8 +1,8 @@
-health_potion:
-  display_name: Health Potion
-  item_type: consumable
-  value: 10
-  target: self
-  actions:
-    - action: add_health
-      value: 25
+identifier: health_potion
+display_name: Health Potion
+item_type: consumable
+value: 10
+target: self
+actions:
+  - action: add_health
+    value: 25

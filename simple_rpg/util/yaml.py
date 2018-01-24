@@ -14,7 +14,7 @@ def load_item_from_file(file_stream):
     """
     Parses an item YAML file.
     args:
-        file_stream: An read-mode file stream.
+        file_stream: A read-mode file stream.
     returns:
         ItemSchematic
     """
