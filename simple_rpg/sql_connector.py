@@ -9,7 +9,7 @@ from .orm import ORMBase
 from .orm.character import Character
 from .orm.character_inventory import CharacterInventory
 from .orm.item import Item
-from ..schematics import ItemSchematic
+from .schematics import ItemSchematic
 
 
 logger = logging.getLogger('simple_rpg')
@@ -29,7 +29,8 @@ class SQLConnecter:
 
     def add_item(self, item: ItemSchematic):
         """Add an item to the database."""
-        item_hash = hashlib.sha256(json.dumps(item.to_primitive())).hexdigest()
+        item_hash = hashlib.sha256(
+            json.dumps(item.to_primitive()).encode('utf-8')).hexdigest()
         self.session.add(Item(id_string=item.identifier, item_hash=item_hash))
         self.session.commit()
 
@@ -66,8 +67,8 @@ class SQLConnecter:
             items: A list of ItemScematic objects.
         """
         for item in items:
-            item_hash = hashlib.sha256(json.dumps(item.to_primitive())) \
-                .hexdigest()
+            item_hash = hashlib.sha256(
+                json.dumps(item.to_primitive()).encode('utf-8')).hexdigest()
             item_record = self.session.query(Item) \
                 .filter(Item.id_string == item.identifier).one_or_none()
             if item_record is None:

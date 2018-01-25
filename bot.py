@@ -11,7 +11,7 @@ from simple_rpg.sql_connector import SQLConnecter
 from simple_rpg.util.yaml import load_items
 
 COMMAND_PREFIX = '!'
-item_dir = path.join(path.realpath(__file__), 'items')
+item_dir = path.join(path.dirname(path.realpath(__file__)), 'items')
 
 
 class RPGBot(commands.Bot):
