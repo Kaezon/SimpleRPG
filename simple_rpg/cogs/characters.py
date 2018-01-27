@@ -37,4 +37,14 @@ class Characters(object):
     @checks.has_character()
     async def inventory(self, ctx):
         """Send the character's inventory to the channel"""
-        pass
+        character_record = self.bot.sql_connector.get_character(
+            ctx.message.author.id)
+        inventory_records = self.bot.sql_connector.get_character_inventory(
+            character_record.id)
+        formatted_inventory = "==={}'s inventory===\n```\n".format(
+            ctx.message.author.display_name)
+        for record in inventory_records:
+            formatted_inventory += "{item}: {quantity}\n".format(
+                item=record.item.id_string, quantity=record.quantity)
+        formatted_inventory += "```"
+        await ctx.send(formatted_inventory)

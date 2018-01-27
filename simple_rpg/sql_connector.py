@@ -3,6 +3,7 @@ import hashlib
 import json
 import logging
 
+from sqlalchemy import and_
 from sqlalchemy.orm import sessionmaker
 
 from .orm import ORMBase
@@ -34,6 +35,21 @@ class SQLConnecter:
         self.session.add(Item(id_string=item.identifier, item_hash=item_hash))
         self.session.commit()
 
+    def add_item_to_character(self, character_id, item_id, quantity):
+        """Add an item to a character's inventory."""
+        inventory_record = self.session.query(CharacterInventory) \
+            .filter(and_(CharacterInventory.character_id == character_id,
+                         CharacterInventory.item_id == item_id)) \
+            .one_or_none()
+        if inventory_record is None:
+            inventory_record = CharacterInventory(
+                character_id=character_id,
+                item_id=item_id,
+                quantity=0)
+            self.session.add(inventory_record)
+        inventory_record.quantity += quantity
+        self.session.commit()
+
     def initialize_database(self):
         """Creates all of the tables and populates the static tables"""
         ORMBase.metadata.create_all(self.engine, checkfirst=True)
@@ -50,6 +66,11 @@ class SQLConnecter:
         """Selects all items from the item table."""
         return self.session.query(Item).all()
 
+    def get_item(self, item_identifier):
+        """Get an item with the given identifier string."""
+        return self.session.query(Item) \
+            .filter(Item.id_string == item_identifier).one_or_none()
+
     def add_new_character(self, character_record):
         """Add a character record to the database"""
         self.session.add(character_record)
@@ -59,6 +80,33 @@ class SQLConnecter:
         """Get all inventory records related to this character"""
         return self.session.query(CharacterInventory) \
             .filter(CharacterInventory.character_id == character_id).all()
+
+    def remove_item_from_character(self, character_id, item_id, quantity):
+        """Remove a quantity of an item from a character's inventory."""
+        inventory_record = self.session.query(CharacterInventory) \
+            .filter(and_(CharacterInventory.character_id == character_id,
+                         CharacterInventory.item_id == item_id)) \
+            .one_or_none()
+        if inventory_record is None:
+            logger.warning(
+                "Tried to remove {quantity} of {item_id} from character_id "
+                "{character_id}, but there was no record!"
+                .format(quantity=quantity,
+                        item_id=item_id,
+                        character_id=character_id))
+        elif inventory_record.quantity > quantity:
+            logger.warning(
+                "Tried to remove {quantity} of {item_id} from character_id "
+                "{character_id}, but they only had {inventory_quantity}!"
+                .format(quantity=quantity,
+                        item_id=item_id,
+                        character_id=character_id,
+                        inventory_quantity=inventory_record.quantity))
+        elif inventory_record.quantity == quantity:
+            self.session.delete(inventory_record)
+        else:
+            inventory_record.quantity -= quantity
+            self.session.commit()
 
     def update_items(self, items: list):
         """

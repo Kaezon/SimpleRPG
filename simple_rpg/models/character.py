@@ -69,7 +69,7 @@ class Character(object):
                     dexterity=self.dexterity))
             message = await ctx.bot.wait_for(
                 'message',
-                check=lambda m: m.channel==m.author.dm_channel)
+                check=lambda m: m.channel == m.author.dm_channel)
             split_message = str.split(message.content)
 
             # Process message
@@ -78,10 +78,11 @@ class Character(object):
                     await ctx.send("Expected 3 arguments!")
                     continue
 
-                if split_message[1] in ['str', 'def', 'agl', 'dex']:
+                if split_message[1].lower() in ['str', 'def', 'agl', 'dex']:
                     # Prevent using more SP than the character has
                     if (int(split_message[2]) > self.skill_points):
-                        await ctx.send("You don't have that many skill points!")
+                        await ctx.send(
+                            "You don't have that many skill points!")
                     # Make sure there is an integer to process
                     elif re.search('\d+', split_message[2]):
                         # Assign points to the selected character stat

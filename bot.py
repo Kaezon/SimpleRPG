@@ -1,7 +1,7 @@
 """Module containing the Discord bot functionality."""
 
-import asyncio
 from os import getenv, path
+import traceback
 
 from discord.ext import commands
 from sqlalchemy import create_engine
@@ -19,11 +19,17 @@ class RPGBot(commands.Bot):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, pm_help=True, **kwargs)
         self.characters = {}
+        self.items = {}
+
+        for item in load_items(item_dir):
+            self.items[item.identifier] = item
+
         self.sql_connector = SQLConnecter(create_engine('sqlite://'))
 
+        self.add_cog(cogs.admin.Admin(self))
         self.add_cog(cogs.characters.Characters(self))
         self.sql_connector.initialize_database()
-        self.sql_connector.update_items(load_items(item_dir))
+        self.sql_connector.update_items(self.items.values())
 
     async def on_ready(self):
         print('Logged in as')
@@ -37,6 +43,7 @@ class RPGBot(commands.Bot):
         else:
             ctx.send('An error occured!')
             print("Error - {}: {}".format(type(error).__name__, error))
+            print(traceback.print_tb(error.__traceback__))
 
 
 if __name__ == '__main__':
