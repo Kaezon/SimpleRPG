@@ -104,7 +104,8 @@ class Character(object):
                             self.model.skill_points -= int(split_message[2])
 
                         if split_message[1].lower() == 'dex':
-                            if (int(split_message[2]) + self.dexterity < 0):
+                            if (int(split_message[2]) +
+                                    self.model.dexterity < 0):
                                 await ctx.send(
                                     "You cannot lower your stats below 0!")
                                 break
