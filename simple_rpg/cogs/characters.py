@@ -16,12 +16,11 @@ class Characters(object):
     @commands.command()
     @checks.has_character()
     async def character_test(self, ctx):
-        character = self.bot.characters[ctx.message.author.id]
         await ctx.send('I see you have a character.')
 
     @commands.command()
     async def create_character(self, ctx):
-        if ctx.message.author.id in self.bot.characters:
+        if self.bot.get_or_load_character(ctx.message.author.id):
             await ctx.send('You already have a character!')
         else:
             if not isinstance(ctx.channel, discord.DMChannel):
@@ -37,14 +36,12 @@ class Characters(object):
     @checks.has_character()
     async def inventory(self, ctx):
         """Send the character's inventory to the channel"""
-        character_record = self.bot.sql_connector.get_character(
+        character = self.bot.get_or_load_character(
             ctx.message.author.id)
-        inventory_records = self.bot.sql_connector.get_character_inventory(
-            character_record.id)
         formatted_inventory = "==={}'s inventory===\n```\n".format(
             ctx.message.author.display_name)
-        for record in inventory_records:
+        for inventory in character.model.inventory:
             formatted_inventory += "{item}: {quantity}\n".format(
-                item=record.item.id_string, quantity=record.quantity)
+                item=inventory.item.id_string, quantity=inventory.quantity)
         formatted_inventory += "```"
         await ctx.send(formatted_inventory)

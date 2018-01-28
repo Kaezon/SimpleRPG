@@ -7,6 +7,7 @@ from discord.ext import commands
 from sqlalchemy import create_engine
 
 from simple_rpg import cogs, exceptions
+from simple_rpg.models.character import Character
 from simple_rpg.sql_connector import SQLConnecter
 from simple_rpg.util.yaml import load_items
 
@@ -44,6 +45,26 @@ class RPGBot(commands.Bot):
             ctx.send('An error occured!')
             print("Error - {}: {}".format(type(error).__name__, error))
             print(traceback.print_tb(error.__traceback__))
+
+    def get_or_load_character(self, member_id: str):
+        """
+        Get the character associated with a Discord ID.
+        args:
+            member_id: A Discord UID.
+        returns:
+            Character or None
+        """
+
+        if member_id in self.characters:
+            return self.characters[member_id]
+
+        # Check for record in database
+        character_record = self.sql_connector.get_character(member_id)
+        if character_record is not None:
+            self.characters[member_id] = Character(owner_id=member_id)
+            return self.characters[member_id]
+
+        return None
 
 
 if __name__ == '__main__':

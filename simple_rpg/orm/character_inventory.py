@@ -4,7 +4,6 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.schema import Sequence
 
 from . import ORMBase
-from .item import Item
 
 
 class CharacterInventory(ORMBase):
@@ -18,8 +17,13 @@ class CharacterInventory(ORMBase):
 
     id = Column(
         Integer, Sequence('character_inventory_id_seq'), primary_key=True)
-    character_id = Column(Integer, ForeignKey('characters.id'), unique=True, index=True)
-    item_id = Column(Integer, ForeignKey('items.id'))
+    character_id = Column(
+        Integer,
+        ForeignKey('characters.id'),
+        unique=True,
+        index=True,
+        nullable=False)
+    item_id = Column(Integer, ForeignKey('items.id'), nullable=False)
     quantity = Column(Integer)
 
     character = relationship("Character", back_populates="inventory")

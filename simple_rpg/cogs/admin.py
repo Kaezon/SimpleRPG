@@ -1,9 +1,6 @@
 """
 This module contains the admin commands for SimeRPG.
 """
-import logging
-
-import discord
 from discord.ext import commands
 
 from .util.data import MemberConverter, NumberConverter

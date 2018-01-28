@@ -1,6 +1,7 @@
 """Module containing the Item class"""
 
-class Item(Object):
+
+class Item(object):
     """An Item that can be used by characters"""
 
     def __init__(self, schematic):
