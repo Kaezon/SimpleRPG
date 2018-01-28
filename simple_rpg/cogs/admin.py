@@ -43,7 +43,7 @@ class Admin(object):
         item_records = self.bot.sql_connector.get_all_items()
         formatted_item_list = "===Items===\n```\n"
         for record in item_records:
-            formatted_item_list += "{}\n".format(record.id_string)
+            formatted_item_list += "{}\n".format(self.box.items.id_string)
         formatted_item_list += "```"
 
         await ctx.send(formatted_item_list)

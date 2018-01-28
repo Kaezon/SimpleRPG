@@ -42,6 +42,7 @@ class Characters(object):
             ctx.message.author.display_name)
         for inventory in character.model.inventory:
             formatted_inventory += "{item}: {quantity}\n".format(
-                item=inventory.item.id_string, quantity=inventory.quantity)
+                item=self.bot.items[inventory.item.id_string].display_name,
+                quantity=inventory.quantity)
         formatted_inventory += "```"
         await ctx.send(formatted_inventory)
