@@ -33,6 +33,19 @@ class Character(object):
         else:
             self.model = ORMCharacter(owner_id=self.owner_id)
 
+    def get_item(self, item: str):
+        """
+        Return an inventory record, or None if the character doesn't have any.
+        """
+        for inventory in self.model.inventory:
+            if inventory.item.id_string == item:
+                return inventory
+        return None
+
+    def get_member(self, ctx):
+        """Return the owner member object for this character."""
+        return ctx.guild.get_member(self.owner_id)
+
     async def create(self, ctx):
         """
         Present the user with the character creation process and save the

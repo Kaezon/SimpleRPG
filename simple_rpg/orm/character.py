@@ -23,7 +23,6 @@ class Character(ORMBase):
         self.agility = 0
         self.dexterity = 0
 
-
     id = Column(Integer, Sequence('character_id_seq'), primary_key=True)
     owner_id = Column(String, index=True, nullable=False)
     skill_points = Column(Integer, default=0)

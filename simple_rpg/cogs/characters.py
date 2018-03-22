@@ -2,7 +2,6 @@ import logging
 
 import discord
 from discord.ext import commands
-
 from ..models.character import Character
 from ..util import checks
 
@@ -46,3 +45,42 @@ class Characters(object):
                 quantity=inventory.quantity)
         formatted_inventory += "```"
         await ctx.send(formatted_inventory)
+
+    @commands.command()
+    @checks.has_character()
+    async def use(self, ctx, item: str, target: str):
+        """Use an item from the character's inventory."""
+        character = self.bot.get_or_load_character(
+            ctx.message.author.id)
+        if item not in self.bot.items:
+            await ctx.send("There is no \"{}\"...").format(item)
+            return
+
+        inventory_record = character.get_item(item)
+        if inventory_record is None:
+            await ctx.send("You don't have any!")
+            return
+
+        item_schematic = self.bot.items[item]
+
+        self.bot.item_processor.process_item(character, item_schematic)
+        if inventory_record.quantity == 1:
+            self.bot.sql_connector.session.delete(inventory_record)
+        else:
+            inventory_record.quantity -= 1
+
+    @commands.command()
+    @checks.has_character()
+    async def status(self, ctx):
+        """Get a readout of the character's stats."""
+        character = self.bot.get_or_load_character(
+            ctx.message.author.id)
+        formatted_stats = (
+            "===Kaezon's Stats===\n"
+            "```HP: {health}/{health_max} MP: {mana}/{mana_max}```"
+        ).format(
+            health=character.model.health,
+            health_max=character.model.health_max,
+            mana=character.model.mana,
+            mana_max=character.model.mana_max)
+        await ctx.send(formatted_stats)

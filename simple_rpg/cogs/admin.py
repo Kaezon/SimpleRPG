@@ -3,7 +3,7 @@ This module contains the admin commands for SimeRPG.
 """
 from discord.ext import commands
 
-from .util.data import MemberConverter, NumberConverter
+from .util.data import CharacterConverter, MemberConverter, NumberConverter
 
 
 class Admin(object):
@@ -47,3 +47,12 @@ class Admin(object):
         formatted_item_list += "```"
 
         await ctx.send(formatted_item_list)
+
+    @commands.command()
+    async def smack(self, ctx, character: CharacterConverter):
+        """Smack a character. Good for fun or discipline."""
+        if character.model.health > 1:
+            character.model.health -= 1
+        await ctx.send("{source_name} smacked {target_name}!".format(
+            source_name=ctx.author.display_name,
+            target_name=character.get_member(ctx).display_name))

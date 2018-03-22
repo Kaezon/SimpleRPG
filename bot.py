@@ -7,6 +7,7 @@ from discord.ext import commands
 from sqlalchemy import create_engine
 
 from simple_rpg import cogs, exceptions
+from simple_rpg.item_processor import ItemProcessor
 from simple_rpg.models.character import Character
 from simple_rpg.sql_connector import SQLConnecter
 from simple_rpg.util.yaml import load_items
@@ -21,6 +22,8 @@ class RPGBot(commands.Bot):
         super().__init__(*args, pm_help=True, **kwargs)
         self.characters = {}
         self.items = {}
+
+        self.item_processor = ItemProcessor(self)
 
         for item in load_items(item_dir):
             self.items[item.identifier] = item

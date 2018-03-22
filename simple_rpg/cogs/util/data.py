@@ -10,6 +10,12 @@ class MemberConverter(commands.MemberConverter):
         return await super().convert(ctx, argument)
 
 
+class CharacterConverter(MemberConverter):
+    async def convert(self, ctx, argument):
+        member = await super().convert(ctx, argument)
+        return ctx.bot.get_or_load_character(member.id)
+
+
 class NumberConverter(commands.Converter):
     async def convert(self, ctx, argument):
         argument = argument.replace(",", "")
