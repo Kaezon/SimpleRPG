@@ -18,14 +18,29 @@ from schematics.types import IntType, StringType, ModelType, ListType
 
 
 class ActionSchematic(Model):
-    action = StringType()
-    value = StringType()
+    action = StringType(required=True)
+    value = StringType(required=True)
+
+
+class StatsSchematic(Model):
+    strength = IntType(required=True)
+    dexterity = IntType(required=True)
+    agility = IntType(required=True)
+    defense = IntType(required=True)
 
 
 class ItemSchematic(Model):
-    identifier = StringType()
-    display_name = StringType()
-    item_type = StringType()
-    value = IntType()
-    target = StringType()
-    actions = ListType(ModelType(ActionSchematic))
+    identifier = StringType(required=True)
+    display_name = StringType(required=True)
+    item_type = StringType(required=True)
+    value = IntType(required=True)
+
+
+class ConsumableSchematic(ItemSchematic):
+    target = StringType(required=True)
+    actions = ListType(ModelType(ActionSchematic), required=True)
+
+
+class EquipmentSchematic(ItemSchematic):
+    equip_slot = StringType(required=True)
+    stat_modifiers = ModelType(StatsSchematic, required=True)

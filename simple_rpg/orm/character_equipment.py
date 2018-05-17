@@ -40,3 +40,10 @@ class CharacterEquipment(orm.ORMBase):
         "Item", primaryjoin="CharacterEquipment.right_hand_item_id==Item.id")
     feet = relationship(
         "Item", primaryjoin="CharacterEquipment.feet_item_id==Item.id")
+
+    def list_equipment(self):
+        return [self.head,
+                self.body,
+                self.left_hand,
+                self.right_hand,
+                self.feet]

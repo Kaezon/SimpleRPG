@@ -56,3 +56,17 @@ class Admin(object):
         await ctx.send("{source_name} smacked {target_name}!".format(
             source_name=ctx.author.display_name,
             target_name=character.get_member(ctx).display_name))
+
+    @commands.command()
+    async def show_stats(self, ctx, character: CharacterConverter):
+        """Debugging modded stats."""
+        await ctx.send(
+            "STR {strength}\n"
+            "DEF {defense}\n"
+            "AGL {agility}\n"
+            "DEX {dexterity}\n"
+            .format(
+                strength=character.strength,
+                defense=character.defense,
+                agility=character.agility,
+                dexterity=character.dexterity))

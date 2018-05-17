@@ -7,7 +7,7 @@ from os.path import isfile, join
 
 from yaml import load, Loader
 
-from ..schematics import ItemSchematic
+from ..schematics import EquipmentSchematic, ConsumableSchematic
 
 
 def load_item_from_file(file_stream):
@@ -19,7 +19,14 @@ def load_item_from_file(file_stream):
         ItemSchematic
     """
 
-    return ItemSchematic(load(file_stream, Loader=Loader))
+    loaded_yaml = load(file_stream, Loader=Loader)
+    if loaded_yaml['item_type'] == 'equipment':
+        return EquipmentSchematic(loaded_yaml)
+    if loaded_yaml['item_type'] == 'consumable':
+        return ConsumableSchematic(loaded_yaml)
+
+    # Shouldn't hit this point, raise an error
+    raise Exception
 
 
 def load_items(items_path: str):

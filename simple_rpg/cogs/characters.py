@@ -71,6 +71,25 @@ class Characters(object):
 
     @commands.command()
     @checks.has_character()
+    async def equip(self, ctx, item: str):
+        """Use an item from the character's inventory."""
+        character = self.bot.get_or_load_character(
+            ctx.message.author.id)
+        if item not in self.bot.items:
+            await ctx.send("There is no \"{}\"...").format(item)
+            return
+
+        inventory_record = character.get_item(item)
+        if inventory_record is None:
+            await ctx.send("You don't have any!")
+            return
+
+        # Set the item to the equip slot and remove it from inventory
+        character.equip(self.bot.items[item].equip_slot, inventory_record)
+        await ctx.send("Equiped {}!".format(self.bot.items[item].display_name))
+
+    @commands.command()
+    @checks.has_character()
     async def status(self, ctx):
         """Get a readout of the character's stats."""
         character = self.bot.get_or_load_character(

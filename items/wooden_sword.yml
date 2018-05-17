@@ -1,0 +1,10 @@
+identifier: wooden_sword
+display_name: Wooden Sword
+item_type: equipment
+value: 10
+equip_slot: right_hand
+stat_modifiers:
+  strength: 1
+  defense: 0
+  agility: 0
+  dexterity: 0

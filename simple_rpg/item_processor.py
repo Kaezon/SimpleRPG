@@ -32,4 +32,13 @@ class ItemProcessor(object):
         # Perform the item's actions
         for verb in item.actions:
             if verb.action == 'add_health':
-                target.model.health += int(verb.value)
+                if target.model.health + int(verb.value) > \
+                        target.model.health_max:
+                    target.model.health = target.model.health_max
+                else:
+                    target.model.health += int(verb.value)
+
+        # Do damage to target
+        # Buff stats
+        # Debuff Stats
+        # Teleport (End event/sequence)

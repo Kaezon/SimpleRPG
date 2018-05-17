@@ -20,6 +20,98 @@ class Character(object):
 
         self.load_or_initialize()
 
+    @property
+    def max_health(self):
+        """
+        Get character's max health value.
+
+        This will include modifications by buffs, debuffs, and equipment.
+
+        Returns:
+            int: The caulated stat value.
+        """
+        self.model.health_max
+
+    @property
+    def max_mana(self):
+        """
+        Get character's max mana value.
+
+        This will include modifications by buffs, debuffs, and equipment.
+
+        Returns:
+            int: The caulated stat value.
+        """
+        self.model.mana_max
+
+    @property
+    def strength(self):
+        """
+        Get character's strength value.
+
+        This will include modifications by buffs, debuffs, and equipment.
+
+        Returns:
+            int: The caulated stat value.
+        """
+        strength = self.model.strength
+        for value in [self.bot.items[item.id_string].stat_modifiers.strength
+                      for item in self.model.equipment.list_equipment()
+                      if item is not None]:
+            strength += value
+        return strength
+
+    @property
+    def defense(self):
+        """
+        Get character's defense value.
+
+        This will include modifications by buffs, debuffs, and equipment.
+
+        Returns:
+            int: The caulated stat value.
+        """
+        defense = self.model.defense
+        for value in [self.bot.items[item.id_string].stat_modifiers.defense
+                      for item in self.model.equipment.list_equipment()
+                      if item is not None]:
+            defense += value
+        return defense
+
+    @property
+    def agility(self):
+        """
+        Get character's agility value.
+
+        This will include modifications by buffs, debuffs, and equipment.
+
+        Returns:
+            int: The caulated stat value.
+        """
+        agility = self.model.agility
+        for value in [self.bot.items[item.id_string].stat_modifiers.agility
+                      for item in self.model.equipment.list_equipment()
+                      if item is not None]:
+            agility += value
+        return agility
+
+    @property
+    def dexterity(self):
+        """
+        Get character's dexterity value.
+
+        This will include modifications by buffs, debuffs, and equipment.
+
+        Returns:
+            int: The caulated stat value.
+        """
+        dexterity = self.model.dexterity
+        for value in [self.bot.items[item.id_string].stat_modifiers.dexterity
+                      for item in self.model.equipment.list_equipment()
+                      if item is not None]:
+            dexterity += value
+        return dexterity
+
     def load_or_initialize(self):
         """
         Load the character from the database if it exists; otherwise, run the
@@ -45,6 +137,23 @@ class Character(object):
     def get_member(self, ctx):
         """Return the owner member object for this character."""
         return ctx.guild.get_member(self.owner_id)
+
+    def equip(self, equip_slot, item_record):
+        """Equip an item."""
+
+        if equip_slot == 'head':
+            self.model.equipment.head = item_record.item
+        elif equip_slot == 'body':
+            self.model.equipment.body = item_record.item
+        elif equip_slot == 'left_hand':
+            self.model.equipment.left_hand = item_record.item
+        elif equip_slot == 'right_hand':
+            self.model.equipment.right_hand = item_record.item
+        elif equip_slot == 'feet':
+            self.model.equipment.feet = item_record.item
+        # Handle "hands" special case
+        else:
+            raise Exception("Equip failed?")
 
     async def create(self, ctx):
         """
